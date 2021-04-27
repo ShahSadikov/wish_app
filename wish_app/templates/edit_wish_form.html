@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static "css/style.css" %}">
+    <title>Edit wish form</title>
+</head>
+<body>
+    <div id="wrapper">
+        <!-- Navbar -->
+        <nav class="navbar navbar-light bg-light">
+            <a class="navbar-brand"><span>The Wishing App</span> &#127873; </a>
+            <form action="/user/logout" class="form-inline">
+                <p class="navbar-brand">Welcome {{request.session.user_name}} </p> 
+                <a href="/user/logout"></a><button class="btn btn-outline-success my-2 my-sm-0" type="submit">Log out</button></a>
+            </form>
+        </nav>
+        <div class="sub_btn">
+            <a href="/user/dashboard"><button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Dashboard</button></a>
+        </div>
+        <div class="container">
+            <!-- Main section -->
+            <div class="row">
+                <!-- VALIDATOR MESSAGES -->
+                {% if messages %}
+                    <ul class="messages">    
+                        {% for message in messages %}    
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>    
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <!-- Add Book and Review Forms -->
+                <div class="col">
+                    <h5>Let's edit your wish!</h5>
+                    <form action="/wishes/{{wish_info.id}}/update" method="POST" class="form-group">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="wish_title">I wish for:</label>
+                            <input type="text" class="form-control" name="wish_title" value="{{wish_info.wish_title}}">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description:</label>
+                            <input type="text" class="form-control" name="description" value="{{wish_info.description}}">
+                        </div>
+                        <div class="row_btn">
+                            <button class="btn_edit btn-outline-info btn-sm mt-3">Submit</button>
+                        </div> 
+                    </form>
+                    <div class="row_btn">
+                        <a href="/user/dashboard"><button class="btn_delete btn-outline-danger btn-sm">Cancel</button></a>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</body>
+</html>
